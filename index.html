@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusNews | Portal Central</title>
+    
+    <!-- Fuentes y estilos externos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS INTERNO -->
+    <style>
+        /* Variables de color */
+        :root {
+            --bg-color: #f4f7f6;
+            --navbar-bg: #0f172a;
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Barra de Navegación --- */
+        .navbar {
+            background-color: var(--navbar-bg);
+            padding: 0 5%;
+            height: 75px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* Cambios aquí: Se adaptó para que sea un enlace sin subrayado */
+        .navbar-brand {
+            color: #fff;
+            font-size: 1.6rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none; /* Quita la línea de abajo del enlace */
+            transition: transform 0.2s ease, color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .navbar-brand i {
+            color: #60a5fa; 
+        }
+
+        /* Efecto al pasar el mouse sobre el título */
+        .navbar-brand:hover {
+            transform: scale(1.02);
+            color: #bfdbfe;
+        }
+
+        .user-profile {
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary-color);
+        }
+
+        /* --- Sección Hero (Bienvenida) --- */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Contenedor de las Tarjetas (Grid) --- */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+        }
+
+        /* --- Estilo de cada Tarjeta --- */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #bfdbfe;
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Colores personalizados para cada ícono */
+        .c-usuarios { background-color: #dbeafe; color: #2563eb; }
+        .c-articulos { background-color: #f3e8ff; color: #9333ea; }
+        .c-categorias { background-color: #dcfce7; color: #16a34a; }
+        .c-comentarios { background-color: #ffedd5; color: #ea580c; }
+        .c-reacciones { background-color: #ffe4e6; color: #e11d48; }
+        .c-notificaciones { background-color: #fef08a; color: #ca8a04; }
+        .c-favoritos { background-color: #e0f2fe; color: #0284c7; }
+
+        .card:hover .card-icon {
+            transform: scale(1.1);
+        }
+
+        .card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* Flecha indicadora */
+        .card-arrow {
+            margin-top: auto;
+            align-self: flex-end;
+            color: var(--primary-color);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover .card-arrow {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú Superior -->
+    <nav class="navbar">
+        <!-- Ahora es una etiqueta 'a' que apunta a index.html -->
+        <a href="index.html" class="navbar-brand">
+            <i class="fa-solid fa-layer-group"></i> NexusNews Hub
+        </a>
+        <div class="user-profile">
+            <span>Administrador</span>
+            <img src="https://ui-avatars.com/api/?name=Admin&background=2563eb&color=fff" alt="Perfil">
+        </div>
+    </nav>
+
+    <!-- Encabezado de Bienvenida -->
+    <section class="hero">
+        <h1>Panel de Control de Microservicios</h1>
+        <p>Selecciona un módulo para gestionar los recursos del sistema y la base de datos.</p>
+    </section>
+
+    <!-- Grilla de Tarjetas -->
+    <main class="dashboard-container">
+        
+        <a href="http://localhost:8084/usuarios" class="card">
+            <div class="card-icon c-usuarios">
+                <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>Gestión de Usuarios</h3>
+            <p>Administra los perfiles, roles y accesos de los usuarios registrados.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8081/articulos" class="card">
+            <div class="card-icon c-articulos">
+                <i class="fa-regular fa-newspaper"></i>
+            </div>
+            <h3>Artículos</h3>
+            <p>Redacta, publica y edita el contenido principal de la plataforma.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8082/categorias" class="card">
+            <div class="card-icon c-categorias">
+                <i class="fa-solid fa-tags"></i>
+            </div>
+            <h3>Categorías</h3>
+            <p>Organiza la estructura del contenido mediante etiquetas y secciones.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8083/comentarios" class="card">
+            <div class="card-icon c-comentarios">
+                <i class="fa-regular fa-comments"></i>
+            </div>
+            <h3>Comentarios</h3>
+            <p>Modera las opiniones y el feedback de la comunidad lectora.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8086/reacciones" class="card">
+            <div class="card-icon c-reacciones">
+                <i class="fa-regular fa-heart"></i>
+            </div>
+            <h3>Reacciones</h3>
+            <p>Analiza el impacto y las interacciones de los usuarios con las noticias.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8085/notificaciones" class="card">
+            <div class="card-icon c-notificaciones">
+                <i class="fa-regular fa-bell"></i>
+            </div>
+            <h3>Notificaciones</h3>
+            <p>Gestiona las alertas y comunicados enviados a la comunidad.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+        <a href="http://localhost:8087/lista" class="card">
+            <div class="card-icon c-favoritos">
+                <i class="fa-solid fa-star"></i>
+            </div>
+            <h3>Favoritos</h3>
+            <p>Administra las listas de lectura guardadas por los usuarios.</p>
+            <i class="fa-solid fa-arrow-right card-arrow"></i>
+        </a>
+
+    </main>
+
+</body>
+</html>
